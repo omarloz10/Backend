@@ -24,7 +24,7 @@ Route::prefix("v1")
         Route::get("/usuarios", [UserController::class, "index"]);
         Route::get("/usuarios/{id}", [UserController::class, "show"]);
         Route::post("/usuarios", [UserController::class, "store"]);
-        Route::put("/usuarios/{id}", [UserController::class, "update"]);
+        Route::post("/usuarios/{id}", [UserController::class, "update"]);
         Route::patch("/usuarios/{id}", [UserController::class, "disable"]);
         Route::delete("/usuarios/{id}", [UserController::class, "destroy"]);
 

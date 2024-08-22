@@ -67,7 +67,6 @@ class UserController extends Controller
         return response()->json([
             "estado" => "exito",
             "mensaje" => "Usuario Creado Exitosamente",
-            "usuario" => $usuarioCreado,
         ], Response::HTTP_CREATED);
     }
 
@@ -220,7 +219,7 @@ class UserController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        $usuario = User::select("email", "contrasenia")
+        $usuario = User::select("email", "contrasenia", "activo")
             ->where("email", "=", $request->email)
             ->first();
 
@@ -231,12 +230,20 @@ class UserController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        if (Hash::check($usuario->contrasenia, $request->contrasenia)) {
+        if ($usuario->activo == 0) {
+            return response()->json([
+                "estado" => "error",
+                "mensaje" => "El usuario esta deshabilitado",
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        if (!Hash::check($request->contrasenia, $usuario->contrasenia)) {
             return response()->json([
                 "estado" => "error",
                 "mensaje" => "La contraseña es incorrecta",
             ], Response::HTTP_BAD_REQUEST);
         }
+
         return response()->json([
             "estado" => "exito",
             "mensaje" => "Se ha iniciado sesión correctamente",

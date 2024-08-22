@@ -20,7 +20,7 @@ class UserFactory extends Factory
             //
             "nombre_completo" => $this->faker->name,
             "email" => $this->faker->unique->email,
-            "contrasenia" => Hash::make("123456789"),
+            "contrasenia" => Hash::make("1234567890"),
         ];
     }
 }
